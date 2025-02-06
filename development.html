@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropbox Video Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        .input-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #videoContainer {
+            display: none;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .copyright {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                max-width: 90%;
+                padding: 15px;
+            }
+
+            input, button {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            video {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Dropbox Video Player</h2>
+        <div class="input-group">
+            <input type="text" id="dropboxLink" placeholder="Paste Dropbox link">
+            <button onclick="convertLink()">Play Video</button>
+        </div>
+    </div>
+
+    <div id="videoContainer">
+        <video id="videoPlayer" controls>
+            <source id="videoSource" src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="copyright">
+        &copy; 2025 JMBrownKid. All rights reserved.
+    </div>
+
+    <script>
+        function convertLink() {
+            let inputLink = document.getElementById("dropboxLink").value;
+            let videoContainer = document.getElementById("videoContainer");
+
+            if (inputLink.includes("dropbox.com")) {
+                let directLink = inputLink.replace("www.dropbox.com", "dl.dropboxusercontent.com").replace("?dl=0", "").replace("?dl=1", "");
+
+                // Set video source and show player
+                document.getElementById("videoSource").src = directLink;
+                document.getElementById("videoPlayer").load();
+                videoContainer.style.display = "block";
+            } else {
+                alert("Invalid Dropbox link!");
+                videoContainer.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
