@@ -15,7 +15,7 @@ function login() {
 
     if (user) {
         alert("Login Successful!");
-        window.location.href = "developmen.html"; // Redirect to another page
+        window.location.href = "development.html"; // Redirect to another page
     } else {
         errorMessage.textContent = "Invalid Username or Password!";
     }
