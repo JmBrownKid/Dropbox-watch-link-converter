@@ -1,81 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+    <title>Login</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-        }
+    <script>
+        // Sample array of valid usernames, passwords, and names
+        const users = [
+            { username: "user1", password: "pass1", name: "John Doe" },
+            { username: "user2", password: "pass2", name: "Jane Smith" },
+            { username: "user3", password: "pass3", name: "Sam Brown" }
+        ];
 
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            width: 350px;
-            text-align: center;
-        }
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            let loginSuccess = false;
+            let userName = '';
 
-        h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
+            // Loop through the users array to check credentials
+            for (let i = 0; i < users.length; i++) {
+                if (users[i].username === username && users[i].password === password) {
+                    loginSuccess = true;
+                    userName = users[i].name; // Capture the user's name
+                    break;
+                }
+            }
 
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
+            if (loginSuccess) {
+                // Store the username and name in sessionStorage and redirect to success page
+                sessionStorage.setItem('username', username);
+                sessionStorage.setItem('name', userName);
+                window.location.href = "success.html"; // Redirect to success page
+            } else {
+                // Display error message in the 'errorMessage' div
+                document.getElementById("errorMessage").style.display = "block";
+            }
         }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #4facfe;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: #008cff;
-        }
-
-        .error {
-            color: red;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-    </style>
+    </script>
 </head>
-<body>
 
-    <div class="container">
-        <h2>Login</h2>
-        <input type="text" id="username" placeholder="Enter Username">
-        <input type="password" id="password" placeholder="Enter Password">
-        <button onclick="login()">Login</button>
-        <p class="error" id="errorMessage"></p>
+<body class="bg-light">
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card p-4" style="width: 100%; max-width: 400px;">
+            <h2 class="text-center mb-4">Login</h2>
+            <form onsubmit="event.preventDefault(); login();">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+
+                <!-- Error message div (initially hidden) -->
+                <div id="errorMessage" class="text-danger text-center mb-3" style="display: none;">
+                    Invalid username or password.
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Add Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
