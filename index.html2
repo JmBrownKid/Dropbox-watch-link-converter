@@ -1,28 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-        .container { width: 300px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
-        input { width: 100%; padding: 10px; margin: 10px 0; }
-        button { width: 100%; padding: 10px; background: blue; color: white; border: none; cursor: pointer; }
-        button:hover { background: darkblue; }
-        .error { color: red; }
+    <title>Welcome</title>
+    <!-- Add Bootstrap CSS -->
+     <style>
+        
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        .input-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #videoContainer {
+            display: none;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .copyright {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                max-width: 90%;
+                padding: 15px;
+            }
+
+            input, button {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            video {
+                max-width: 100%;
+            }
+        }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script>
+        // Function to display the username and name after login
+        function displayUserDetails() {
+            const username = sessionStorage.getItem('username');
+            const name = sessionStorage.getItem('name');
+            if (username && name) {
+                document.getElementById('welcomeMessage').innerHTML = `Welcome, ${name} (${username})!`;
+            } else {
+                // Redirect to login page if no username is found in sessionStorage
+                window.location.href = "login.html";
+            }
+        }
+
+        // Log out and clear session storage
+        function logout() {
+            sessionStorage.removeItem('username');
+            sessionStorage.removeItem('name');
+            window.location.href = "login.html";
+        }
+    </script>
 </head>
-<body>
 
-    <div class="container">
-        <h2>Login</h2>
-        <input type="text" id="username" placeholder="Enter Username">
-        <input type="password" id="password" placeholder="Enter Password">
-        <button onclick="login()">Login</button>
-        <p class="error" id="errorMessage"></p>
-    </div>
+<body class="bg-light">
+    <div class=" d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card p-4" style="width: 100%; max-width: 400px;">
+            <h2 class="text-center mb-4">Success</h2>
+            <p id="welcomeMessage" class="text-center mb-4"></p>
+            <input type="text" class="form-control mb-3" id="dropboxLink" placeholder="Paste Dropbox link">
+            <button onclick="convertLink()" class="btn btn-primary mb-3 w-100">Play Video</button>
+            <div class="text-center">
+                <button onclick="logout()" class="btn btn-danger w-100">Logout</button>
+            </div>
+            <div id="videoContainer">
+                <video id="videoPlayer" controls>
+                    <source id="videoSource" src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+    <script>
+        function convertLink() {
+            let inputLink = document.getElementById("dropboxLink").value;
+            let videoContainer = document.getElementById("videoContainer");
 
-    <script src="script.js"></script>
+            if (inputLink.includes("dropbox.com")) {
+                let directLink = inputLink.replace("www.dropbox.com", "dl.dropboxusercontent.com").replace("?dl=0", "").replace("?dl=1", "");
+
+                // Set video source and show player
+                document.getElementById("videoSource").src = directLink;
+                document.getElementById("videoPlayer").load();
+                videoContainer.style.display = "block";
+            } else {
+                alert("Invalid Dropbox link!");
+                videoContainer.style.display = "none";
+            }
+        }
+    </script>
+
+    <!-- Add Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Call the displayUserDetails function on page load -->
+    <script>
+        displayUserDetails();
+    </script>
 </body>
+
 </html>
